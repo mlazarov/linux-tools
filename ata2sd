@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for block in /sys/block/sd*
+do
+  base=`basename $block`
+  host=`ls -l $block | egrep -o "host[0-9]+"`
+  target=`ls -l $block | egrep -o "target[0-9:]*"`
+  ata_id=`echo $target | egrep -o "[0-9]:[0-9]$" | sed 's/://'`
+  uniq_id=`cat /sys/class/scsi_host/$host/unique_id`
+  echo "ata$uniq_id.$ata_id -> $base"
+done
