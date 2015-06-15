@@ -1,0 +1,9 @@
+#!/bin/bash
+
+domain=$1
+openssl x509 -in $domain.crt -out $domain.der -outform DER
+openssl x509 -in $domain.der  -inform DER -out $domain.pem -outform PEM
+
+cat $domain.crt > $domain.pem
+cat $domain.key >> $domain.pem
+cat /root/default.pems >> $domain.pem
